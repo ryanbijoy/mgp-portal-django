@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{% static 'mgp-logo.ico' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+
+    <script src="{% static 'signup.js' %}"></script>
+
+
+    <title>Register</title>
+</head>
+
+<body  class=" d-flex flex-column">
+    <div class="page page-center">
+      <div class="container container-tight py-4">
+        <div class="text-center mb-4">
+          <a href="/" class="navbar-brand navbar-brand-autodark">
+            <img src="{% static 'mgp-logo.svg' %}" width="140" height="32" alt="MGP" class="navbar-brand-image">
+          </a>
+        </div>
+        <form class="card card-md" action="/register" method="POST" autocomplete="off" novalidate>
+
+          <div class="card-body">
+            <h2 class="text-center mb-4">Registration Page</h2>
+
+            {% for field in userform %}
+
+            <div class="mb-3">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+            </div>
+
+            {% endfor %}
+
+            {% csrf_token %}
+
+            {% for field in employeeform %}
+
+            <div class="mb-3">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+            </div>
+
+            {% endfor %}
+
+            <div class="form-footer">
+              <button type="submit" class="btn btn-info w-100">Create Your Account</button>
+            </div>
+          </div>
+        </form>
+        <div class="text-center text-secondary mt-3">
+          Already have account? <a href="/" tabindex="-1" style="color: #70c8fa">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
