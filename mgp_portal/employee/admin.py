@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import EmployeeDetails, Activity
+from .models import EmployeeDetail, Activity
 # Register your models here.
 
 
-@admin.register(EmployeeDetails)
+@admin.register(EmployeeDetail)
 class Employee(admin.ModelAdmin):
     list_display = ['id', "user", "mobile_number", "designation", "department"]
 

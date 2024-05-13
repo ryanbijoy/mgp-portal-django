@@ -4,7 +4,6 @@ from .models import Activity
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from .geolocation import geofencing
 
@@ -80,9 +79,4 @@ def redirect_to_homepage(request):
 
 @login_required(login_url="/login")
 def dashboard(request):
-    if request.method == "POST":
-        print(request.POST)
-
-    return render(request, "dashboard.html", {"userdashboard": userdashboard})
-
-
+    return render(request, "dashboard.html")

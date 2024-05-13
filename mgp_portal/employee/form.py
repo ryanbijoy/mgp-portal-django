@@ -1,4 +1,4 @@
-from .models import User, EmployeeDetails
+from .models import User, EmployeeDetail
 from django import forms
 from django.contrib.auth import password_validation
 
@@ -57,7 +57,7 @@ class RegisterForm(forms.ModelForm):
 
 class EmployeeModel(forms.ModelForm):
     class Meta:
-        model = EmployeeDetails
+        model = EmployeeDetail
         exclude = ("user",)
 
         labels = {
