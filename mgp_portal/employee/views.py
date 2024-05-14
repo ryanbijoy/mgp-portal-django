@@ -52,13 +52,11 @@ def user_login(request):
                 user = authenticate(username=username, password=password)
                 if user and user.is_active:
                     login(request, user)
-                    Activity.objects.create(user=user, activity="login", activity_time=timezone.now())
-
                     return redirect("/dashboard")
                 else:
                     messages.warning(request, "Invalid Username or Password")
             else:
-                messages.error(request, "You need to get closer to the office!")
+                messages.error(request, "You Need To Get Closer To The Office!")
     else:
         loginform = LoginModel()
 
@@ -68,8 +66,11 @@ def user_login(request):
 @login_required(login_url="/login")
 def user_logout(request):
     if request.user and request.user.is_authenticated:
+        user = request.user
         logout(request)
-
+        activity = request.POST["activity"]
+        Activity.objects.create(user=user, activity=activity, activity_time=timezone.now())
+        messages.success(request, f"You Have Successfully {activity}")
     return redirect("/login")
 
 
