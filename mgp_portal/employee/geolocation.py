@@ -10,8 +10,8 @@ def geofencing(latitude, longitude):
 
     geo_lat = 19.1950125
     geo_lon = 72.9544889
-    lat = 19.1950125
-    lon = 72.9544889
+    lat = float(latitude)
+    lon = float(longitude)
 
     # In Meters
     radius_of_distance = 65
