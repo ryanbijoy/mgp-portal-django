@@ -4,19 +4,14 @@ from django.contrib.auth import password_validation
 
 
 class RegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
-
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name", "password", "password2"]
+        fields = ["username", "email", "first_name", "last_name"]
         labels = {
             "username": "Username",
             "email": "Email",
             "first_name": "First Name",
             "last_name": "Last Name",
-            "password": "Password",
-            "password2": "Confirm Password",
         }
 
     def __init__(self, *args, **kwargs):
@@ -27,8 +22,6 @@ class RegisterForm(forms.ModelForm):
             "email": "Enter Email",
             "first_name": "Enter First Name",
             "last_name": "Enter Last Name",
-            "password": "Enter Password",
-            "password2": "Enter Confirm Password",
         }
 
         for field_name, field in self.fields.items():
@@ -38,24 +31,11 @@ class RegisterForm(forms.ModelForm):
             if field_name in self.Meta.labels:
                 field.label = self.Meta.labels[field_name]
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        re_password = cleaned_data.get("password2")
-
-        ## password validation
-        if password != re_password:
-            raise forms.ValidationError({"password": ["Passwords does not match"]})
-
-        if password == None:
-            raise forms.ValidationError({"password": ["Password can't be empty"]})
-        try:
-            password_validation.validate_password(password=password)
-        except forms.ValidationError as error:
-            raise forms.ValidationError({"password": error})
-
 
 class EmployeeModel(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}), label="Confirm Password")
+
     class Meta:
         model = EmployeeDetail
         exclude = ("user",)
@@ -64,6 +44,7 @@ class EmployeeModel(forms.ModelForm):
             "designation": "Designation",
             "department": "Department",
             "mobile_number": "Mobile Number",
+            "password": "Password",
         }
 
     def __init__(self, *args, **kwargs):
@@ -73,11 +54,29 @@ class EmployeeModel(forms.ModelForm):
             "designation": "Enter Designation",
             "department": "Enter Department",
             "mobile_number": "Enter Mobile Number",
+            "password": "Enter Password",
+            "password2": "Enter Confirm Password",
         }
 
         for field_name, field in self.fields.items():
             field.widget.attrs["placeholder"] = placeholders.get(field_name, "")
             field.widget.attrs["class"] = "form-control"
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        re_password = cleaned_data.get("password2")
+
+        # password validation
+        if password != re_password:
+            raise forms.ValidationError({"password": ["Passwords does not match"]})
+
+        if password == None:
+            raise forms.ValidationError({"password": ["Password can't be empty"]})
+        try:
+            password_validation.validate_password(password=password)
+        except forms.ValidationError as error:
+            raise forms.ValidationError({"password": error})
 
 
 class LoginModel(forms.Form):

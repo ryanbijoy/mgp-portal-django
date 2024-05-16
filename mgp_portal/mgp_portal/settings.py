@@ -31,6 +31,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 
 # Application definition
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "employee",
+    'import_export',
 ]
 
 MIDDLEWARE = [

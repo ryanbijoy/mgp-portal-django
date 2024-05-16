@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from .choices import ACTIVITY_CHOICES
 
 
 # Create your models here.
@@ -13,5 +14,5 @@ class EmployeeDetail(models.Model):
 
 class Activity(models.Model):
     user = models.ForeignKey(User, related_name="user_activity", on_delete=models.CASCADE)
-    activity = models.CharField(max_length=100)
-    activity_time = models.DateTimeField()
+    activity = models.CharField(max_length=100, choices=ACTIVITY_CHOICES)
+    activity_at = models.DateTimeField()

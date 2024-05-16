@@ -55,6 +55,17 @@
         <div class="text-center text-secondary mt-3">
           Already have account? <a href="/" tabindex="-1" style="color: #70c8fa">Sign in</a>
         </div>
+        <br>
+      {% if messages %}
+      {% for message in messages %}
+
+      <div {% if message.tags %} class="alert alert-{{ message.tags }}" role="alert" {% endif %}>
+        {{ message }}
+      </div>
+
+      {% endfor %}
+      {% endif %}
+
       </div>
     </div>
   </body>

@@ -154,3 +154,11 @@ h2 {
 }
 
 }
+
+.Signout {
+    font-size: 32px;
+    text-align: center;
+    line-height: 1;
+    background-color: #f59393 !important;
+    border-color: #ff8080;
+}
