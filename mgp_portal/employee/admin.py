@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import EmployeeDetail, Activity
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources
+from import_export.fields import Field
+from import_export.fields import widgets
 # Register your models here.
 
 admin.site.site_header = "Portal Administration"
@@ -43,11 +45,20 @@ class Employee(admin.ModelAdmin):
     approved.boolean = True
 
 
+class ActivityResource(resources.ModelResource):
+    date = Field(attribute='activity_at', column_name='date', widget=widgets.DateTimeWidget(format='%d %B %Y'))
+    time = Field(attribute='activity_at', column_name='time', widget=widgets.DateTimeWidget(format='%H:%M %p'))
+
+    class Meta:
+        model = Activity
+        fields = ('id', "user__first_name", "user__last_name", "activity", "date", "time",)
+
+
 @admin.register(Activity)
 class UserActivity(ImportExportModelAdmin):
     list_display = ['id', "first_name", "last_name", "activity", "date", "time"]
     list_filter = ["activity", "activity_at"]
-    export_order = ('id', "first_name", "last_name", "activity", "date", "time",)
+    resource_classes = [ActivityResource]
 
     def date(self, obj):
         return obj.activity_at.strftime("%d %B %Y")
